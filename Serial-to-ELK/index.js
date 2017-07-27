@@ -20,7 +20,7 @@ var parser = port.pipe(Readline({delimiter: '\n'}));
 // ElasticSearch client
 var client = new elasticsearch.Client({
     host: argv.server+':9200',
-    log: 'trace'
+    log: ''
 });
 
 // Check if the ElasticSearch server is up
@@ -39,26 +39,32 @@ client.ping({
 // Consumer
 var consumer = function(entry){
 
-    entry = entry.replace(/\t/g," ");
 
-    console.log(entry);
+    //entry = entry.replace(/\t/g," ");
 
-    client.index({
-        index: 'serialport',
-        type: 'log',
-        //id: '1',
-        body: {
-            message: entry,
-            date: new Date().toISOString()
-        }
-    }, function (error, response) {
-        if(error) {
-            console.log('ElasticSearch ERROR: ' + error);
-        }
-        else {
-            console.log(response);
-        }
-    });
+    try {
+        var parsedMsg = JSON.parse(entry);
+        console.log(entry);
+        client.index({
+            index: 'network-1',
+            type: 'log',
+            //id: '1',
+            body: {
+                message: parsedMsg,
+                date: new Date().toISOString()
+            }
+        }, function (error, response) {
+            if(error) {
+                console.log('ElasticSearch ERROR: ' + error);
+            }
+            else {
+                //console.log(response);
+            }
+        });
+    } catch (e) {
+        console.log('Not valid JSON msg: ' + entry);
+    }
+
 }
 
 parser.on('data', consumer);
