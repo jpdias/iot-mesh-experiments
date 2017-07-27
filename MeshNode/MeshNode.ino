@@ -12,13 +12,17 @@
 #define   MESH_PASSWORD   "somethingSneaky"
 #define   MESH_PORT       5555
 
+#define logMsg(type, body) Serial.println("{\"msgtype\": "+ String(type) +", \"self\": "+ String(mesh.getNodeId()) +", \"body\": "+ String(body) +"}")
+#define NETWORK_MAP 0
+#define RECEIVED_MSG 1
+
 void sendMessage() ; // Prototype so PlatformIO doesn't complain
 
 painlessMesh  mesh;
 Task taskSendMessage( TASK_SECOND * 1 , TASK_FOREVER, &sendMessage );
 
 void receivedCallback( uint32_t from, String &msg ) {
-  Serial.printf("[{\"from\": %u,\"msg\": \"%s\"}]\n", from, msg.c_str());
+  logMsg(RECEIVED_MSG, "{\"from\": " + String(from) + ", \"msg\": \"" + msg + "\"}");
   if (msg == "switch") {
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
   }
@@ -29,7 +33,7 @@ void newConnectionCallback(uint32_t nodeId) {
 }
 
 void changedConnectionCallback() {
-  Serial.println(mesh.subConnectionJson());
+  logMsg(NETWORK_MAP, mesh.subConnectionJson());
 }
 
 void nodeTimeAdjustedCallback(int32_t offset) {
@@ -52,7 +56,6 @@ void setup() {
 
   mesh.scheduler.addTask( taskSendMessage );
   taskSendMessage.enable();
-  Serial.println(TASK_SECOND);
 }
 
 void loop() {

@@ -2,6 +2,10 @@ var SerialPort = require('serialport');
 var yargs = require('yargs');
 var elasticsearch = require('elasticsearch');
 
+// Log Message Types
+var NETWORK_MAP = 0;
+var RECEIVED_MSG = 1;
+
 
 // Command Arguments
 var argv = yargs
@@ -14,30 +18,30 @@ var argv = yargs
 
 // Serial Port Parser
 var Readline = SerialPort.parsers.Readline;
-var port = new SerialPort(argv.port, {baudRate: argv.baud});
-var parser = port.pipe(Readline({delimiter: '\n'}));
+var port = new SerialPort(argv.port, { baudRate: argv.baud });
+var parser = port.pipe(Readline({ delimiter: '\n' }));
 
 // ElasticSearch client
 var client = new elasticsearch.Client({
-    host: argv.server+':9200',
-    log: ''
+    host: argv.server + ':9200'
+    //log: ''
 });
 
 // Check if the ElasticSearch server is up
 client.ping({
     requestTimeout: 5000,
-    }, function (error) {
-        if (error) {
-            console.error('ElasticSearch cluster is down!');
-            process.exit(1);
-        } else {
-            console.log('All is well');
-        }
+}, function (error) {
+    if (error) {
+        console.error('ElasticSearch cluster is down!');
+        process.exit(1);
+    } else {
+        console.log('All is well');
     }
+}
 );
 
 // Consumer
-var consumer = function(entry){
+var consumer = function (entry) {
 
 
     //entry = entry.replace(/\t/g," ");
@@ -45,8 +49,22 @@ var consumer = function(entry){
     try {
         var parsedMsg = JSON.parse(entry);
         console.log(entry);
+
+        var ELKindex; // index to be used in the ElasticSearch submission
+        switch (parsedMsg.msgtype) {
+            case NETWORK_MAP:
+                ELKindex = 'network';
+                break;
+            case RECEIVED_MSG:
+                ELKindex = 'messages-' + parsedMsg.self;
+                break;
+            default:
+                ELKindex = 'unformatted';
+                break;
+        }
+
         client.index({
-            index: 'network-1',
+            index: ELKindex,
             type: 'log',
             //id: '1',
             body: {
@@ -54,7 +72,7 @@ var consumer = function(entry){
                 date: new Date().toISOString()
             }
         }, function (error, response) {
-            if(error) {
+            if (error) {
                 console.log('ElasticSearch ERROR: ' + error);
             }
             else {
