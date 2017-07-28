@@ -65,6 +65,7 @@ const getNetworkStatus = async () => axios.get('http://192.168.102.55:9200/netwo
       },
       ]);
     }
+    //cy.add(response.data.hits.hits[0]._source.messsage.body)
     console.info('Network Config Request');
     console.log(response);
 
