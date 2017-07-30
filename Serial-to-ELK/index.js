@@ -40,11 +40,44 @@ client.ping({
 }
 );
 
+var format_r = function (currentScope, nodes, edges, prevId) {
+
+    for (let i = 0; i < currentScope.length; i++) {
+        if (currentScope[i] !== undefined && currentScope[i].hasOwnProperty('nodeId')) { // Check if the new 'currentScope' still has a 'nodeId' object
+            nodes.push('{data: { id: ' + currentScope[i].nodeId + '}}');
+
+            edges.push('{data: { id: ' + prevId + '-' + currentScope[i].nodeId + ', weight: 1, source: ' + prevId + ', target: ' + currentScope[i].nodeId + '}}');
+
+            if (currentScope[i].hasOwnProperty('subs')) {
+                format_r(currentScope[i].subs, nodes, edges, currentScope[i].nodeId);
+            }
+        }
+    }
+}
+
+// Network State Message Formatter
+var format = function (parsedMsg) {
+    let formmatedMsg,
+        nodes = [],
+        edges = [],
+        currentScope;
+
+    if (parsedMsg.hasOwnProperty('self')) {
+        nodes.push('{data: { id: ' + parsedMsg.self + '}}');
+
+        currentScope = parsedMsg.body;
+        format_r(currentScope, nodes, edges, parsedMsg.self);
+    }
+
+    formmatedMsg = "{elements: { nodes: [" + nodes + "], edges: [" + edges + "]}}";
+    return JSON.stringify(formmatedMsg);
+}
+
 // Consumer
 var consumer = function (entry) {
 
 
-    //entry = entry.replace(/\t/g," ");
+    entry = entry.replace(/\t/g," ");
 
     try {
         var parsedMsg = JSON.parse(entry);
@@ -54,6 +87,7 @@ var consumer = function (entry) {
         switch (parsedMsg.msgtype) {
             case NETWORK_MAP:
                 ELKindex = 'network';
+                parsedMsg = format(parsedMsg);
                 break;
             case RECEIVED_MSG:
                 ELKindex = 'messages-' + parsedMsg.self;
