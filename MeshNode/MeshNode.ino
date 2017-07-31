@@ -8,8 +8,8 @@
 //************************************************************
 #include "painlessMesh.h"
 
-#define   MESH_PREFIX     "whateverYouLike"
-#define   MESH_PASSWORD   "somethingSneaky"
+#define   MESH_PREFIX     "ESP-Mesh"
+#define   MESH_PASSWORD   "SneakySneaky"
 #define   MESH_PORT       5555
 
 #define logMsg(type, body) Serial.println("{\"msgtype\": "+ String(type) +", \"self\": "+ String(mesh.getNodeId()) +", \"body\": "+ String(body) +"}")
@@ -23,9 +23,6 @@ Task taskSendMessage( TASK_SECOND * 1 , TASK_FOREVER, &sendMessage );
 
 void receivedCallback( uint32_t from, String &msg ) {
   logMsg(RECEIVED_MSG, "{\"from\": " + String(from) + ", \"msg\": \"" + msg + "\"}");
-  if (msg == "switch") {
-    digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
-  }
 }
 
 void newConnectionCallback(uint32_t nodeId) {
@@ -42,8 +39,6 @@ void nodeTimeAdjustedCallback(int32_t offset) {
 
 void setup() {
   Serial.begin(115200);
-
-  pinMode(LED_BUILTIN, OUTPUT);
 
   //mesh.setDebugMsgTypes( ERROR | MESH_STATUS | CONNECTION | SYNC | COMMUNICATION | GENERAL | MSG_TYPES | REMOTE ); // all types on
   mesh.setDebugMsgTypes( ERROR | STARTUP | CONNECTION );  // set before init() so that you can see startup messages
@@ -63,8 +58,8 @@ void loop() {
 }
 
 void sendMessage() {
-  String msg = "switch";
-//msg += mesh.getNodeId();
+  String msg = "Hello from node ";
+  msg += mesh.getNodeId();
   mesh.sendBroadcast( msg );
   taskSendMessage.setInterval( random( TASK_SECOND * 1, TASK_SECOND * 5 ));
 }

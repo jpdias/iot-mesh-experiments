@@ -44,9 +44,21 @@ var format_r = function (currentScope, nodes, edges, prevId) {
 
     for (let i = 0; i < currentScope.length; i++) {
         if (currentScope[i] !== undefined && currentScope[i].hasOwnProperty('nodeId')) { // Check if the new 'currentScope' still has a 'nodeId' object
-            nodes.push('{data: { id: ' + currentScope[i].nodeId + '}}');
+           
+            var data_node = {id: currentScope[i].nodeId};
 
-            edges.push('{data: { id: ' + prevId + '-' + currentScope[i].nodeId + ', weight: 1, source: ' + prevId + ', target: ' + currentScope[i].nodeId + '}}');
+            var data_edge = {
+                id: prevId + '-' + currentScope[i].nodeId,
+                weight: 1,
+                source: prevId,
+                target: currentScope[i].nodeId
+            }
+
+
+        
+            nodes.push(data_node);//'{data: { id: ' + currentScope[i].nodeId + '}}');
+
+            edges.push(data_edge);//'{data: { id: ' + prevId + '-' + currentScope[i].nodeId + ', weight: 1, source: ' + prevId + ', target: ' + currentScope[i].nodeId + '}}');
 
             if (currentScope[i].hasOwnProperty('subs')) {
                 format_r(currentScope[i].subs, nodes, edges, currentScope[i].nodeId);
@@ -63,14 +75,22 @@ var format = function (parsedMsg) {
         currentScope;
 
     if (parsedMsg.hasOwnProperty('self')) {
-        nodes.push('{data: { id: ' + parsedMsg.self + '}}');
+        var data = {};
+
+        data.id = parsedMsg.self;
+
+        nodes.push(data);//'{data: { id: ' + parsedMsg.self + '}}');
 
         currentScope = parsedMsg.body;
         format_r(currentScope, nodes, edges, parsedMsg.self);
     }
+    var elements = {};
 
-    formmatedMsg = "{elements: { nodes: [" + nodes + "], edges: [" + edges + "]}}";
-    return JSON.stringify(formmatedMsg);
+    elements.nodes = nodes;
+    elements.edges = edges;
+    //formmatedMsg = "{elements: { nodes: [" + nodes + "], edges: [" + edges + "]}}";
+    console.log(elements)
+    return JSON.stringify(elements);
 }
 
 // Consumer
