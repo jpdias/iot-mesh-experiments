@@ -35,43 +35,49 @@ const query = {
   sort: 'date:desc',
 };
 
-const lastNetworkTimestamp = new Date(1995, 11, 17);
 
 const randomSpawnPoint = () => ({
   x: 500 + Math.floor((Math.random() * 300) + 150),
   y: 200 + Math.floor((Math.random() * 300) + 150),
 });
 
-const getNetworkStatus = async () => axios.get('http://192.168.102.55:9200/network/log/_search', {
+const getNetworkStatus = async lastNetworkTimestamp => axios.get('http://192.168.102.55:9200/network/log/_search', {
   params: query,
 })
   .then((response) => {
-    console.log(response);
-    if (lastNetworkTimestamp < new Date(response.data.hits.hits[0]._source.date)) {
-      cy.add([{
-        group: 'nodes',
-        data: {
-          id: 'ac',
-        },
-        position: randomSpawnPoint(),
-      },
-      {
-        group: 'edges',
-        data: {
-          id: 12,
-          source: 'ac',
-          target: 'k',
-        },
-      },
-      ]);
-    }
-    //cy.add(response.data.hits.hits[0]._source.messsage.body)
     console.info('Network Config Request');
-    console.log(response);
+    console.debug(response);
+    console.log(`${lastNetworkTimestamp} --- ${new Date(response.data.hits.hits[0]._source.date)}`);
+    console.log(lastNetworkTimestamp < new Date(response.data.hits.hits[0]._source.date))
+    if (lastNetworkTimestamp < new Date(response.data.hits.hits[0]._source.date)) {
+      const data = JSON.parse(response.data.hits.hits[0]._source.message);
+
+      data.nodes.forEach((element) => {
+        cy.add([{
+          group: 'nodes',
+          data: {
+            id: element.id,
+          },
+          position: randomSpawnPoint(),
+        }]);
+      });
+
+      data.edges.forEach((element) => {
+        cy.add([{
+          group: 'edges',
+          data: {
+            id: element.id,
+            source: element.source,
+            target: element.target,
+          },
+          position: randomSpawnPoint(),
+        }]);
+      });
+    }
 
     setTimeout(() => {
-      getNetworkStatus();
-    }, 30000);
+      getNetworkStatus(new Date(response.data.hits.hits[0]._source.date));
+    }, 15000);
   })
   .catch((error) => {
     console.log(error);
@@ -112,5 +118,5 @@ const getMessages = () => axios.get('http://192.168.102.55:9200/messages-*/log/_
     console.log(error);
   });
 
-getNetworkStatus();
+getNetworkStatus(new Date(1995));
 // getMessages();
