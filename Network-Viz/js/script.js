@@ -45,73 +45,87 @@ const getNetworkStatus = async lastNetworkTimestamp => axios.get('http://192.168
   params: query,
 })
   .then((response) => {
-    console.info('Network Config Request');
+    console.info(`Network Config Request: Has changed? ${lastNetworkTimestamp < new Date(response.data.hits.hits[0]._source.date)}`);
     console.debug(response);
-    console.log(`${lastNetworkTimestamp} --- ${new Date(response.data.hits.hits[0]._source.date)}`);
-    console.log(lastNetworkTimestamp < new Date(response.data.hits.hits[0]._source.date))
+
     if (lastNetworkTimestamp < new Date(response.data.hits.hits[0]._source.date)) {
+      const collection = cy.elements('node');
+      // cy.remove( collection );
       const data = JSON.parse(response.data.hits.hits[0]._source.message);
 
-      data.nodes.forEach((element) => {
-        cy.add([{
-          group: 'nodes',
-          data: {
-            id: element.id,
-          },
-          position: randomSpawnPoint(),
-        }]);
+      collection.forEach((element) => {
+        element.data('active', 'false');
       });
 
+      data.nodes.forEach((element) => {
+        if (cy.getElementById(element.id.toString()).length === 0) {
+          cy.add([{
+            group: 'nodes',
+            data: {
+              id: element.id,
+              active: 'true',
+            },
+            position: randomSpawnPoint(),
+          }]);
+        } else {
+          cy.getElementById(element.id.toString()).data('active', 'true');
+        }
+      });
+
+      cy.remove(cy.elements("node[active = 'false']"));
+
+
       data.edges.forEach((element) => {
-        cy.add([{
-          group: 'edges',
-          data: {
-            id: element.id,
-            source: element.source,
-            target: element.target,
-          },
-          position: randomSpawnPoint(),
-        }]);
+        if (cy.getElementById(element.id.toString()).length === 0) {
+          cy.add([{
+            group: 'edges',
+            data: {
+              id: element.id,
+              source: element.source,
+              target: element.target,
+            },
+          }]);
+        }
       });
     }
 
     setTimeout(() => {
       getNetworkStatus(new Date(response.data.hits.hits[0]._source.date));
-    }, 15000);
+    }, 5000);
   })
   .catch((error) => {
     console.log(error);
     return error;
   });
 
-const getMessages = () => axios.get('http://192.168.102.55:9200/messages-*/log/_search', {
-  params: query,
-})
+const getMessages = lastNetworkTimestamp => axios.get(`http://192.168.102.55:9200/messages-*/log/_search?sort=date:desc&q=date:[${lastNetworkTimestamp.toISOString()}\+TO\+*]`)
   .then((response) => {
-    console.info('Last Messages Request');
-    console.log(response);
-    /* var bfs = cy.elements().bfs('#a', function () {}, true);
-
-        var i = 0;
-        var highlightNextEle = function () {
-            if (i < bfs.path.length) {
-                bfs.path[i].addClass('highlighted');
-
-                i++;
-                setTimeout(highlightNextEle, 1000);
-            }
-        };
-
-        // kick off first highlight
-        highlightNextEle(); */
-    /*
-        var eles = cy.add([
-            
-        ]);
-        */
-
+    console.info(`Last Messages Request: Has messages? ${lastNetworkTimestamp < new Date(response.data.hits.hits[0]._source.date)}`);
+    console.debug(response);
+    console.log(lastNetworkTimestamp < new Date(response.data.hits.hits[0]._source.date));
+    if (lastNetworkTimestamp < new Date(response.data.hits.hits[0]._source.date)) {
+      response.data.hits.hits.reverse().forEach((element) => {
+        const conn = `${element._source.message.self}-${element._source.message.body.from}-msg`;
+        if (cy.getElementById(conn).length !== 0) {
+          cy.getElementById(conn).flashClass('highlighted', 100);
+          cy.getElementById(conn).style('label', element._source.message.body.msg);
+        } else {
+          cy.add([{
+            group: 'edges',
+            data: {
+              id: conn,
+              source: element._source.message.body.from,
+              target: element._source.message.self,
+            },
+            style: {
+              'line-style': 'dotted',
+            },
+          }]);
+        }
+      });
+    }
     setTimeout(() => {
-      getMessages();
+      getMessages(new Date(response.data.hits.hits[0]._source.date));
     }, 1000);
   })
   .catch((error) => {
@@ -119,4 +133,4 @@ const getMessages = () => axios.get('http://192.168.102.55:9200/messages-*/log/_
   });
 
 getNetworkStatus(new Date(1995));
-// getMessages();
+getMessages(new Date(1995));
