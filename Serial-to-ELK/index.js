@@ -41,36 +41,38 @@ client.ping({
 );
 
 function formatResponse(currentScope, nodes, edges, prevId) {
-  for (let i = 0; i < currentScope.length; i++) {
-    if (currentScope[i] !== undefined && currentScope[i].hasOwnProperty('nodeId')) { // Check if the new 'currentScope' still has a 'nodeId' object
-      const data_node = { id: currentScope[i].nodeId };
+  currentScope.array.forEach((element) => {
+    // Check if the new 'currentScope' still has a 'nodeId' object
+    if (element !== undefined && element.nodeId !== undefined) {
+      const dataNode = { id: element.nodeId };
 
-      const data_edge = {
-        id: `${prevId}-${currentScope[i].nodeId}`,
+      const dataEdge = {
+        id: `${prevId}-${element.nodeId}`,
         weight: 1,
         source: prevId,
-        target: currentScope[i].nodeId,
+        target: element.nodeId,
       };
 
-      nodes.push(data_node);
-      // '{data: { id: ' + currentScope[i].nodeId + '}}');
+      nodes.push(dataNode);
+      // '{data: { id: ' + element.nodeId + '}}');
 
-      edges.push(data_edge);
-      // '{data: { id: ' + prevId + '-' + currentScope[i].nodeId + ', weight: 1, source: ' + prevId + ', target: ' + currentScope[i].nodeId + '}}');
+      edges.push(dataEdge);
+      // '{data: { id: ' + prevId + '-' + element.nodeId + '
+      // , weight: 1, source: ' + prevId + ', target: ' + element.nodeId + '}}');
 
-      if (currentScope[i].hasOwnProperty('subs')) {
-        formatResponse(currentScope[i].subs, nodes, edges, currentScope[i].nodeId);
+      if (element.subs !== undefined) {
+        formatResponse(element.subs, nodes, edges, element.nodeId);
       }
     }
-  }
+  }, this);
 }
 
 // Network State Message Formatter
-const format = function (parsedMsg) {
+const format = (parsedMsg) => {
   let currentScope;
   const elements = { nodes: [], edges: [] };
 
-  if (parsedMsg.hasOwnProperty('self')) {
+  if (parsedMsg.self !== undefined) {
     const data = {};
 
     data.id = parsedMsg.self;
@@ -87,7 +89,7 @@ const format = function (parsedMsg) {
 };
 
 // Consumer
-function consumer(logEntry) {
+const consumer = (logEntry) => {
   const entry = logEntry.replace(/\t/g, ' ');
 
   try {
@@ -129,6 +131,6 @@ function consumer(logEntry) {
   } catch (e) {
     console.log(`Not valid JSON msg: ${entry}`);
   }
-}
+};
 
 parser.on('data', consumer);
