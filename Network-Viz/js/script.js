@@ -91,41 +91,46 @@ const getNetworkStatus = async lastNetworkTimestamp => axios.get('http://192.168
 
     setTimeout(() => {
       getNetworkStatus(new Date(response.data.hits.hits[0]._source.date));
-    }, 5000);
+    }, 1500);
   })
   .catch((error) => {
     console.log(error);
     return error;
   });
 
-const getMessages = lastNetworkTimestamp => axios.get(`http://192.168.102.55:9200/messages-*/log/_search?sort=date:desc&q=date:[${lastNetworkTimestamp.toISOString()}\+TO\+*]`)
+const getMessages = lastTimestamp => axios.get(`http://192.168.102.55:9200/messages-*/log/_search?q=date:[${lastTimestamp.toISOString()}\+TO\+*]&sort=date:desc`)
   .then((response) => {
-    console.info(`Last Messages Request: Has messages? ${lastNetworkTimestamp < new Date(response.data.hits.hits[0]._source.date)}`);
+    console.info(`Last Messages Request: Has messages? ${lastTimestamp < new Date(response.data.hits.hits[0]._source.date)}`);
     console.debug(response);
-    console.log(lastNetworkTimestamp < new Date(response.data.hits.hits[0]._source.date));
-    if (lastNetworkTimestamp < new Date(response.data.hits.hits[0]._source.date)) {
+    if (lastTimestamp < new Date(response.data.hits.hits[0]._source.date)) {
       response.data.hits.hits.reverse().forEach((element) => {
         const conn = `${element._source.message.self}-${element._source.message.body.from}-msg`;
         if (cy.getElementById(conn).length !== 0) {
           cy.getElementById(conn).flashClass('highlighted', 100);
           cy.getElementById(conn).style('label', element._source.message.body.msg);
         } else {
-          cy.add([{
-            group: 'edges',
-            data: {
-              id: conn,
-              source: element._source.message.body.from,
-              target: element._source.message.self,
-            },
-            style: {
-              'line-style': 'dotted',
-            },
-          }]);
+          try {
+            cy.add([{
+              group: 'edges',
+              data: {
+                id: conn,
+                source: element._source.message.body.from,
+                target: element._source.message.self,
+              },
+              style: {
+                'line-style': 'dotted',
+              },
+            }]);
+          } catch (error) {
+            console.log(`Can not create edge at the moment: ${conn}`);
+          }
         }
       });
+    } else {
+      cy.elements('edge').style('label', '');
     }
     setTimeout(() => {
-      getMessages(new Date(response.data.hits.hits[0]._source.date));
+      getMessages(new Date(response.data.hits.hits.reverse()[0]._source.date));
     }, 1000);
   })
   .catch((error) => {
