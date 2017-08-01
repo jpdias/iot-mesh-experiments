@@ -54,11 +54,7 @@ function formatResponse(currentScope, nodes, edges, prevId) {
       };
 
       nodes.push(dataNode);
-      // '{data: { id: ' + element.nodeId + '}}');
-
       edges.push(dataEdge);
-      // '{data: { id: ' + prevId + '-' + element.nodeId + '
-      // , weight: 1, source: ' + prevId + ', target: ' + element.nodeId + '}}');
 
       if (element.subs !== undefined) {
         formatResponse(element.subs, nodes, edges, element.nodeId);
@@ -99,16 +95,13 @@ const consumer = (logEntry) => {
     let ELKindex; // index to be used in the ElasticSearch submission
     switch (parsedMsg.msgtype) {
       case NETWORK_MAP:
-        console.info(parsedMsg.msgtype);
         ELKindex = 'network';
         parsedMsg = format(parsedMsg);
         break;
       case RECEIVED_MSG:
-        console.info(parsedMsg.msgtype);
         ELKindex = `messages-${parsedMsg.self}`;
         break;
       default:
-        console.info(parsedMsg.msgtype);
         ELKindex = 'unformatted';
         break;
     }
@@ -123,9 +116,7 @@ const consumer = (logEntry) => {
       },
     }, (error, response) => {
       if (error) {
-        console.log(`ElasticSearch ERROR: ${error}`);
-      } else {
-        // console.log(response);
+        console.log(`ElasticSearch ERROR: ${error} - Msg: ${response}`);
       }
     });
   } catch (e) {
