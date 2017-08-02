@@ -15,24 +15,34 @@ Power harvesting on Potatoes will be one of the goals
 
 A browser based of the mesh network shall be available as well 
 
-## Tasks/Ideas
+### Tasks/Ideas
 
-## Tings used in this project
+- [ ] Set up a Mesh network foundation
+- [ ] Integrate the Mesh Network with MQQT
+- [ ] Explore the use of power harvesting
+- [ ] Create a network web visualization
+- [ ] Do small experiments with sensors/actuators
 
-## Story
+### Tings used in this project
 
-### Background
+#### Hardware
 
-### Components 
+#### Software 
 
-### Diagrams 
+### Story
 
-## File structure 
+#### Background
 
-## Set up  
+#### Components 
 
-## Side efforts 
+#### Diagrams 
 
-## Side components 
+### File structure 
 
-## Authors 
+### Set up  
+
+### Side efforts 
+
+### Side components 
+
+### Authors 
