@@ -32,11 +32,20 @@ Hardware | Quantity
 --- | --- 
 nodemcu esp8266 | 2
 
-#### Software 
-
 ### Story
 
 #### Background
+
+Whatis a Mesh Network?
+
+A mesh network is a network topology in which each node relays data for the network. All mesh nodes cooperate in the distribution of data in the network. It can be applied to both wired and wireless networks.
+
+Wireless mesh networks can be considered a type of Wireless ad hoc network. Thus, wireless mesh networks are closely related to mobile ad hoc networks (MANETs). Although MANETs are not restricted to a specific mesh network topology, Wireless ad hoc networks or MANETs can take any form of network topology.
+
+Borrowed from [Wikipedia](https://en.wikipedia.org/wiki/Mesh_networking#frb-inline)
+
+
+
 
 #### Components 
 
