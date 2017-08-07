@@ -45,4 +45,14 @@ A browser based of the mesh network shall be available as well
 
 ### Side components 
 
+* Participation in the [Sunset Hackathon](http://sunsethackathon.pt/) (team appliance under review)
+
+
 ### Authors 
+
+* [Filipa Barros](https://github.com/FilipaBarros)
+* [Gonçalo Pereira](https://github.com/G-Pereira)
+* [Luís Sousa](https://github.com/Sleepy105)
+* [Hugo Sereno Ferreira](https://github.com/hugoferreira)
+* [João Pedro Dias](https://github.com/jpdias)
+
