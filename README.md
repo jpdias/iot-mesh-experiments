@@ -27,6 +27,11 @@ A browser based of the mesh network shall be available as well
 
 #### Hardware
 
+
+Hardware | Quantity  
+--- | --- 
+nodemcu esp8266 | 2
+
 #### Software 
 
 ### Story
