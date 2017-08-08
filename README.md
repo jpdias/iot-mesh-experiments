@@ -80,7 +80,7 @@ _Borrowed from [PhracturedBlue/ESP8266MQTTMesh](https://github.com/PhracturedBlu
 
 **Result: It didn't work**
 
-**Approach #2:painlessMesh*
+**Approach #2:painlessMesh**
 
 **Library: https://gitlab.com/BlackEdder/painlessMesh**
 
@@ -111,8 +111,6 @@ painlessMesh does not create a TCP/IP network of nodes. Rather each of the nodes
 _Borrowed from [BlackEdder/painlessMesh](https://gitlab.com/BlackEdder/painlessMesh)_
 
 **Result: It worked**
-
-#### Components 
 
 #### Diagrams 
 
