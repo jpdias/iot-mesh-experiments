@@ -56,11 +56,11 @@ _Borrowed from [IoT Agenda](http://internetofthingsagenda.techtarget.com/feature
 
 ##### Approaches 
 
-**Approach #1: ESP8266MQTTMesh**
+###### **Approach #1: ESP8266MQTTMesh**
 
-**Library: https://github.com/PhracturedBlue/ESP8266MQTTMesh**
+###### **Library: https://github.com/PhracturedBlue/ESP8266MQTTMesh**
 
-**Description:**
+###### **Description:**
 
 Self-assembling mesh network built around the MQTT protocol for the ESP8266 with OTA support
 
@@ -78,13 +78,13 @@ While all nodes must run the same version of the ESP8622MQTTMesh library, each n
 
 _Borrowed from [PhracturedBlue/ESP8266MQTTMesh](https://github.com/PhracturedBlue/ESP8266MQTTMesh)_
 
-**Result: It didn't work**
+###### **Result: It didn't work**
 
-**Approach #2:painlessMesh**
+###### **Approach #2:painlessMesh**
 
-**Library: https://gitlab.com/BlackEdder/painlessMesh**
+###### **Library: https://gitlab.com/BlackEdder/painlessMesh**
 
-**Description:**
+###### **Description:**
 
 painlessMesh is a library that takes care of the particulars of creating a simple mesh network using Arduino and esp8266.  The goal is to allow the programmer to work with a mesh network without having to worry about how the network is structured or managed.
 
@@ -110,7 +110,7 @@ painlessMesh does not create a TCP/IP network of nodes. Rather each of the nodes
 
 _Borrowed from [BlackEdder/painlessMesh](https://gitlab.com/BlackEdder/painlessMesh)_
 
-**Result: It worked**
+###### **Result: It worked**
 
 #### Diagrams 
 
