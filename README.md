@@ -36,7 +36,7 @@ nodemcu esp8266 | 2
 
 #### Background
 
-What is a Mesh Network?
+**What is a Mesh Network?
 
 A mesh network is a network topology in which each node relays data for the network. All mesh nodes cooperate in the distribution of data in the network. It can be applied to both wired and wireless networks.
 
@@ -44,7 +44,7 @@ Wireless mesh networks can be considered a type of Wireless ad hoc network. Thus
 
 _Borrowed from [Wikipedia](https://en.wikipedia.org/wiki/Mesh_networking#frb-inline)_
 
-Mesh Networks vs IoT 
+**Mesh Networks vs IoT 
 
 Mesh networking is emerging as an attractive option for a wide range of low-power, low-data-rate IoT applications.
 
@@ -53,6 +53,9 @@ The key concept behind Internet of Things (IoT) meshing is to enable connected t
 While IoT is mainly discussed in terms of home and building automation, mesh networks are ideal for supporting not only these but also other IoT low-power and low-data-rate applications such as industrial automation, monitoring medical supplies and other things inside hospitals, and even agriculture or oil and gas operations in some of the world's most remote locations.
 
 _Borrowed from [IoT Agenda](http://internetofthingsagenda.techtarget.com/feature/Using-mesh-networking-to-interconnect-IoT-devices)_
+
+** Approaches 
+
 
 
 #### Components 
