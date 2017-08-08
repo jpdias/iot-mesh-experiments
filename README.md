@@ -81,6 +81,7 @@ While all nodes must run the same version of the ESP8622MQTTMesh library, each n
 _Borrowed from [PhracturedBlue/ESP8266MQTTMesh](https://github.com/PhracturedBlue/ESP8266MQTTMesh)_
 
 **Result: It didn't work**
+
 ---
 
 **Approach #2:painlessMesh**
