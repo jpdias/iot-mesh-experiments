@@ -30,13 +30,13 @@ A browser based of the mesh network shall be available as well
 
 Hardware | Quantity  
 --- | --- 
-nodemcu esp8266 | 2
+nodemcu esp8266 | 6
 
 ### Story
 
 #### Background
 
-**What is a Mesh Network?
+##### What is a Mesh Network?
 
 A mesh network is a network topology in which each node relays data for the network. All mesh nodes cooperate in the distribution of data in the network. It can be applied to both wired and wireless networks.
 
@@ -44,7 +44,7 @@ Wireless mesh networks can be considered a type of Wireless ad hoc network. Thus
 
 _Borrowed from [Wikipedia](https://en.wikipedia.org/wiki/Mesh_networking#frb-inline)_
 
-**Mesh Networks vs IoT 
+##### Mesh Networks vs IoT
 
 Mesh networking is emerging as an attractive option for a wide range of low-power, low-data-rate IoT applications.
 
@@ -54,7 +54,27 @@ While IoT is mainly discussed in terms of home and building automation, mesh net
 
 _Borrowed from [IoT Agenda](http://internetofthingsagenda.techtarget.com/feature/Using-mesh-networking-to-interconnect-IoT-devices)_
 
-** Approaches 
+##### Approaches 
+
+**Approach #1: ESP8266MQTTMesh
+Library: https://github.com/PhracturedBlue/ESP8266MQTTMesh
+Description:**
+Self-assembling mesh network built around the MQTT protocol for the ESP8266 with OTA support
+
+**Overview**
+
+Provide a library that can build a mesh network between ESP8266 devices that will allow all nodes to communicate with an MQTT broker. At least one node must be able to see a wiFi router, and there must me a host on the WiFi network running the MQTT broker. The broker is responsible for retaining information about individual nodes (via retained messages) Each node will expose a hidden AP which can be connected to from any other node on the network. Note: hiding the AP does not provide any additional security, but does minimize the clutter of other WiFi clients in the area.
+
+Additionally the library provides an OTA mechanism using the MQTT pathway which can update any/all nodes on the mesh.
+
+This code was developed primarily for teh Sonoff line of relays, but should work with any ESP8266 board with sufficient flash memory
+
+**OTA**
+
+While all nodes must run the same version of the ESP8622MQTTMesh library, each node may run a unique firmware with independent purposes. The main purpose behind this library was to provide a backbone on which several home-automation sensors could be built. As such each node may need different code to achieve its purpose. Because firmwares are large, and memory is limited on the ESP8266 platform, there is only a single memory area to hold the incoming firmware. To ensure that a given firmware is only consumed by the proper nodes, The firmware defines a unique identifier that distinguishes itself from other code. A given firmware is broadcast from the MQTT broker to all nodes, but only nodes with a matching ID will update.
+_Borrowed from [PhracturedBlue/ESP8266MQTTMesh](https://github.com/PhracturedBlue/ESP8266MQTTMesh)_
+
+**Result: It didn't work**
 
 
 
