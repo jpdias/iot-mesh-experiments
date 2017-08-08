@@ -162,6 +162,33 @@ _Borrowed from [BlackEdder/painlessMesh](https://gitlab.com/BlackEdder/painlessM
 └── .gitignore
 ```
 
+### Modules
+
+**Docker-ELK**
+Runs the latest version of the ELK (Elasticsearch, Logstash, Kibana) stack with Docker and Docker Compose.
+
+It gives you the ability to analyze any data set by using the searching/aggregation capabilities of Elasticsearch and the visualization power of Kibana.
+
+It has 3 containers being those: 
+
+_Elastic Search:_ Elasticsearch is a search engine based on Lucene. It provides a distributed, multitenant-capable full-text search engine with an HTTP web interface and schema-free JSON documents. 
+
+It is developed alongside a data-collection and log-parsing engine called Logstash, and an analytics and visualisation platform called Kibana. The three products are designed for use as an integrated solution, referred to as the "Elastic Stack" (Formerly the "ELK stack").
+
+_Borrowed from [Wikipedia](https://en.wikipedia.org/wiki/Elasticsearch)_
+
+_Kibana:_ 
+
+Kibana is an open source data visualization plugin for Elasticsearch. It provides visualization capabilities on top of the content indexed on an Elasticsearch cluster. Users can create bar, line and scatter plots, or pie charts and maps on top of large volumes of data. 
+
+_Borrowed from [Wikipedia](https://en.wikipedia.org/wiki/Kibana)_
+
+-logstash:_
+
+Logstash is a tool to collect, process, and forward events and log messages. Collection is accomplished via configurable input plugins including raw socket/packet communication, file tailing, and several message bus clients. Once an input plugin has collected data it can be processed by any number of filters which modify and annotate the event data. Finally logstash routes events to output plugins which can forward the events to a variety of external programs including Elasticsearch, local files and several message bus implementations.
+
+_Borrowed from [Wikitech](https://wikitech.wikimedia.org/wiki/Logstash)_
+
 ### Set up  
 
 ### Side efforts 
