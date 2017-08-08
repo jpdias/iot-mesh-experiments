@@ -116,6 +116,52 @@ _Borrowed from [BlackEdder/painlessMesh](https://gitlab.com/BlackEdder/painlessM
 
 ### File structure 
 
+```bash
+├── Mesh-Node
+│   ├── lib
+│   │   ├── 
+│   ├── src
+│   │   ├── main.ino
+│   ├── .gitignore
+│   ├── .travis.yml
+│   └── platformio.ini
+├── Network-Viz
+│   ├── css
+│   │   ├── **.css
+│   ├── js
+│   │   ├── **.js
+│   ├── .eslintrc.json
+│   ├── .gitignore
+│   ├── index.html
+│   └── package.json
+├── Serial-to-ELK
+│   ├── .eslintrc.json
+│   ├── .gitignore
+│   ├── index.js
+│   └── package.json
+├── Docker-ELK
+│   ├── elasticsearch
+│   │   ├── config
+│   │   │   └── elasticsearch.yml
+|   |   Dockerfile
+│   ├── extensions
+│   │   ├── 
+│   ├── kibana
+│   │   ├── config
+│   │   │   └── kibana.yml
+|   |   Dockerfile
+│   ├── logstash
+│   │   ├── config
+│   │   │   └── logstash.yml
+|   |   Dockerfile
+│   ├── .gitignore
+│   ├── README.md
+│   └── docker-compose.yml
+├── README.md
+├── LICENSE
+└── .gitignore
+```
+
 ### Set up  
 
 ### Side efforts 
