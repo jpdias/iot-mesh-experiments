@@ -55,7 +55,7 @@ While IoT is mainly discussed in terms of home and building automation, mesh net
 
 _Borrowed from [IoT Agenda](http://internetofthingsagenda.techtarget.com/feature/Using-mesh-networking-to-interconnect-IoT-devices)_
 
-##### Approaches
+#### Approaches
 ---
 
 **Approach #1: ESP8266MQTTMesh**
