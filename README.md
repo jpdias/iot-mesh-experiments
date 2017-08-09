@@ -120,6 +120,8 @@ _Borrowed from [BlackEdder/painlessMesh](https://gitlab.com/BlackEdder/painlessM
 
 #### Diagrams 
 
+![Overall Diagram](http://i.imgur.com/aeAZ6kD.png)
+
 ### File structure 
 
 ```bash
