@@ -3,7 +3,7 @@
 ### Context 
 This project is being developed under the supervision of a summer internship @Software Engineering Laboratory @FEUP. 
 
-The goal of this project is to connect 3 or 4 ESP8266 relying on communication through end-to-end MQQT queues.
+The goal of this project is to connect 3 or 4 ESP8266 relying on communication through end-to-end MQTT queues.
 
 These ESP8266 are to collect different types of data through their sensores and to act, (through their relayed actuactors), upon that same data
 
@@ -18,7 +18,7 @@ A browser based of the mesh network shall be available as well
 ### Tasks/Ideas
 
 - [ ] Set up a Mesh network foundation
-- [ ] Integrate the Mesh Network with MQQT
+- [ ] Integrate the Mesh Network with MQTT
 - [ ] Explore the use of power harvesting
 - [ ] Create a network web visualization
 - [ ] Do small experiments with sensors/actuators
@@ -81,6 +81,8 @@ While all nodes must run the same version of the ESP8622MQTTMesh library, each n
 _Borrowed from [PhracturedBlue/ESP8266MQTTMesh](https://github.com/PhracturedBlue/ESP8266MQTTMesh)_
 
 **Result: It didn't work**
+Long story short, we managed to softbrick a Wemos D1 Mini twice.
+Granted. We only tested this on one device, but we decided to abandon the idea anyway, because we can't affort to lose 2 to 3 hours unbricking the percentage of devices that we manage to screw up.
 
 ---
 
@@ -115,6 +117,7 @@ painlessMesh does not create a TCP/IP network of nodes. Rather each of the nodes
 _Borrowed from [BlackEdder/painlessMesh](https://gitlab.com/BlackEdder/painlessMesh)_
 
 **Result: It worked**
+Worked like a charm. Plug and Play. The only downside to this library is that implementing MQTT over it is going to require a ton of code. However we can easily extract how the network is stuctured, so we can visualize the network and the messages going through it.
 
 ---
 
