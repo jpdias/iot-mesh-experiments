@@ -41,7 +41,8 @@ client.ping({
 );
 
 function formatResponse(currentScope, nodes, edges, prevId) {
-  currentScope.array.forEach((element) => {
+  console.log(currentScope);
+  currentScope.forEach((element) => {
     // Check if the new 'currentScope' still has a 'nodeId' object
     if (element !== undefined && element.nodeId !== undefined) {
       const dataNode = { id: element.nodeId };
@@ -97,6 +98,7 @@ const consumer = (logEntry) => {
       case NETWORK_MAP:
         ELKindex = 'network';
         parsedMsg = format(parsedMsg);
+        console.log(parsedMsg);
         break;
       case RECEIVED_MSG:
         ELKindex = `messages-${parsedMsg.self}`;
@@ -120,6 +122,7 @@ const consumer = (logEntry) => {
       }
     });
   } catch (e) {
+    //console.log(e);
     console.log(`Not valid JSON msg: ${entry}`);
   }
 };
