@@ -201,7 +201,8 @@ Logstash is a tool to collect, process, and forward events and log messages. Col
 _Borrowed from [Wikitech](https://wikitech.wikimedia.org/wiki/Logstash)_
 
 ### Set up  
-1. Docker - elk:
+**1. Docker-elk:**
+
 Start the ELK stack using `docker-compose`:
 
 ```bash
@@ -223,7 +224,56 @@ By default, the stack exposes the following ports:
 * 9300: Elasticsearch TCP transport
 * 5601: Kibana
 
-2. Mesh node:
+**2. Mesh node:**
+
+To be able to properly run this repository you must install platformio and run:
+```bash
+$ platformio run --target upload <
+```
+If you use Visual Studio Code with the platformio plug in then you just need to click send. 
+
+If you need wish to see what's being written on the serial port then run:
+```bash
+$ platformio device monitor <
+```
+If you use Visual Studio Code with the platformio plug in then you just need to click on the serial monitor.
+
+**3.Serial-to-Elk:**
+
+_Requirements:_ 
+* Install [nodejs](https://nodejs.org/en/) 
+* Run:
+```bash
+$  npm install
+```
+
+_Run:_ 
+```bash
+$  node .\index.js --port [str] --baud [num] --server [str]
+```
+example:
+```bash
+$  node .\index.js --port COM3
+```
+This script sends the information from the serial port to ElasticSearch. 
+
+**4.Netowrk Viz: **
+
+_Requirements:_ 
+* Install [nodejs](https://nodejs.org/en/) 
+* Run:
+```bash
+$  npm install
+```
+
+_Run:_
+
+```bash
+$  npm run start
+```
+
+This module starts an HTTP server and opens a browser window with a mesh network graphical real time representation.
+
 
 ### Side efforts 
 
@@ -235,7 +285,6 @@ By default, the stack exposes the following ports:
 ### Authors 
 
 * [Filipa Barros](https://github.com/FilipaBarros)
-* [Gonçalo Pereira](https://github.com/G-Pereira)
 * [Luís Sousa](https://github.com/Sleepy105)
 * [Hugo Sereno Ferreira](https://github.com/hugoferreira)
 * [João Pedro Dias](https://github.com/jpdias)
