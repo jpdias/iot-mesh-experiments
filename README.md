@@ -182,7 +182,9 @@ It gives you the ability to analyze any data set by using the searching/aggregat
 
 It has 3 containers being those: 
 
-_ElasticSearch:_ Elasticsearch is a search engine based on Lucene. It provides a distributed, multitenant-capable full-text search engine with an HTTP web interface and schema-free JSON documents. 
+_ElasticSearch:_
+
+Elasticsearch is a search engine based on Lucene. It provides a distributed, multitenant-capable full-text search engine with an HTTP web interface and schema-free JSON documents. 
 
 It is developed alongside a data-collection and log-parsing engine called Logstash, and an analytics and visualisation platform called Kibana. The three products are designed for use as an integrated solution, referred to as the "Elastic Stack" (Formerly the "ELK stack").
 
@@ -194,12 +196,17 @@ Kibana is an open source data visualization plugin for Elasticsearch. It provide
 
 _Borrowed from [Wikipedia](https://en.wikipedia.org/wiki/Kibana)_
 
-_Logstash_
+_Logstash:_
 
 Logstash is a tool to collect, process, and forward events and log messages. Collection is accomplished via configurable input plugins including raw socket/packet communication, file tailing, and several message bus clients. Once an input plugin has collected data it can be processed by any number of filters which modify and annotate the event data. Finally logstash routes events to output plugins which can forward the events to a variety of external programs including Elasticsearch, local files and several message bus implementations.
 
 _Borrowed from [Wikitech](https://wikitech.wikimedia.org/wiki/Logstash)_
 
+**Mesh Node**
+
+**Serial-to-Elk:**
+
+**Netowrk Viz:**
 ### Set up  
 **1. Docker-elk:**
 
