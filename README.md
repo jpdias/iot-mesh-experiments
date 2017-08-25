@@ -248,16 +248,18 @@ $  npm install
 ```
 
 _Run:_ 
+
 ```bash
 $  node .\index.js --port [str] --baud [num] --server [str]
 ```
-example:
+
+- Example:
 ```bash
 $  node .\index.js --port COM3
 ```
 This script sends the information from the serial port to ElasticSearch. 
 
-**4.Netowrk Viz: **
+**4.Netowrk Viz:**
 
 _Requirements:_ 
 * Install [nodejs](https://nodejs.org/en/) 
