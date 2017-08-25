@@ -260,10 +260,7 @@ This script sends the information from the serial port to ElasticSearch.
 
 _Requirements:_ 
 * Install [nodejs](https://nodejs.org/en/) 
-* Run:
-```bash
-$  npm install
-```
+* Run: ``` $  npm install ```
 
 _Run:_
 
