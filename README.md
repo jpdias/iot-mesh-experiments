@@ -242,10 +242,7 @@ If you use Visual Studio Code with the platformio plug in then you just need to 
 
 _Requirements:_ 
 * Install [nodejs](https://nodejs.org/en/) 
-* Run:
-```bash
-$  npm install
-```
+* Run: ``` $  npm install ```
 
 _Run:_ 
 
