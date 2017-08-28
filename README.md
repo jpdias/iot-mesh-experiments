@@ -203,6 +203,8 @@ Logstash is a tool to collect, process, and forward events and log messages. Col
 _Borrowed from [Wikitech](https://wikitech.wikimedia.org/wiki/Logstash)_
 
 **Mesh Node**
+Since we used the painless mesh library we did a proof of concept in top of it in oirder to se how the mesh would be created and how it would change during its life spawn (life cicle). In order to do so we used json output strings through the serial port.  
+Tha possibility of embodying messages that would trigger the builtin led with the goal of demonstrating the mesh network's propper behavior.
 
 **Serial-to-Elk:**
 
