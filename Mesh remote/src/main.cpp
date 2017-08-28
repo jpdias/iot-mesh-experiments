@@ -1,9 +1,13 @@
 //************************************************************
 // this is a simple example that uses the painlessMesh library
 //
-// 1. sends a silly message to every node on the mesh at a random time betweew 1 and 5 seconds
-// 2. prints anything it recieves to Serial.print
-//
+// 1. read the Serial bus for a nodeID.
+// 2. tries to send a message to taht nodeID which should be
+//    coded to toggle it's BUILTIN_LED when it recieves this
+//    message
+// 3. Prints all traffic to the Serial bus so it can be parsed
+//    by the Serial-to-ELK nodeJS program for "real-time"
+//    network visualization
 //
 //************************************************************
 #include <Arduino.h>
