@@ -2,7 +2,7 @@
 // this is a simple example that uses the painlessMesh library
 //
 // 1. read the Serial bus for a nodeID.
-// 2. tries to send a message to taht nodeID which should be
+// 2. tries to send a message to that nodeID which should be
 //    coded to toggle it's BUILTIN_LED when it recieves this
 //    message
 // 3. Prints all traffic to the Serial bus so it can be parsed
