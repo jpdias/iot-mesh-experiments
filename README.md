@@ -1,19 +1,14 @@
 # IoT-Summer-Experiments
 
 ### Context 
+
 This project is being developed under the supervision of a summer internship @Software Engineering Laboratory @FEUP. 
 
-The goal of this project is to connect 3 or 4 ESP8266 relying on communication through end-to-end MQTT queues.
-
-These ESP8266 are to collect different types of data through their sensores and to act, (through their relayed actuactors), upon that same data
+The goal of this project is to connect 3 or 4 ESP8266 relying on communication through end-to-end MQTT queues. These ESP8266 are to collect different types of data through their sensores and to act, (through their relayed actuactors), upon that same data.
 
 This project is meant to be iterative and incremental.
 
-On a higher level this venture is meant to help reduce energy consuption through the use of radio communication on such devices.
-
-Power harvesting on Potatoes will be one of the goals 
-
-A browser based of the mesh network shall be available as well 
+On a higher level this venture is meant to help reduce energy consuption through the use of radio communication on such devices. Power harvesting on Potatoes will be also considered. A browser based of the mesh network shall be available as well.
 
 ### Tasks/Ideas
 
@@ -218,7 +213,42 @@ Taking the output logs from one of the mesh work's nodes we parsed such data and
 _Sample network configuration log entry_
 
 ```json
-{"nodes":[{"id":2786275551},{"id":2785081432},{"id":2785176007},{"id":2786205540}],"edges":[{"id":"2786275551-2785081432","weight":1,"source":2786275551,"target":2785081432},{"id":"2785081432-2785176007","weight":1,"source":2785081432,"target":2785176007},{"id":"2785176007-2786205540","weight":1,"source":2785176007,"target":2786205540}]}
+{
+  "nodes": [
+    {
+      "id": 2786275551
+    },
+    {
+      "id": 2785081432
+    },
+    {
+      "id": 2785176007
+    },
+    {
+      "id": 2786205540
+    }
+  ],
+  "edges": [
+    {
+      "id": "2786275551-2785081432",
+      "weight": 1,
+      "source": 2786275551,
+      "target": 2785081432
+    },
+    {
+      "id": "2785081432-2785176007",
+      "weight": 1,
+      "source": 2785081432,
+      "target": 2785176007
+    },
+    {
+      "id": "2785176007-2786205540",
+      "weight": 1,
+      "source": 2785176007,
+      "target": 2786205540
+    }
+  ]
+}
 ```
 
 _Sample message log entry_
