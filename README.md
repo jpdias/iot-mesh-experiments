@@ -1,19 +1,14 @@
-# IoT-Summer-Experiments
+# Internet-of-Things Mesh Network Experiments
 
 ### Context 
+
 This project is being developed under the supervision of a summer internship @Software Engineering Laboratory @FEUP. 
 
-The goal of this project is to connect 3 or 4 ESP8266 relying on communication through end-to-end MQTT queues.
-
-These ESP8266 are to collect different types of data through their sensores and to act, (through their relayed actuactors), upon that same data
+The goal of this project is to connect 3 or 4 ESP8266 relying on communication through end-to-end MQTT queues. These ESP8266 are to collect different types of data through their sensores and to act, (through their relayed actuactors), upon that same data.
 
 This project is meant to be iterative and incremental.
 
-On a higher level this venture is meant to help reduce energy consuption through the use of radio communication on such devices.
-
-Power harvesting on Potatoes will be one of the goals 
-
-A browser based of the mesh network shall be available as well 
+On a higher level this venture is meant to help reduce energy consuption through the use of radio communication on such devices. Power harvesting on Potatoes will be also considered. A browser based of the mesh network shall be available as well.
 
 ### Tasks/Ideas
 
@@ -182,9 +177,11 @@ It gives you the ability to analyze any data set by using the searching/aggregat
 
 It has 3 containers being those: 
 
-_ElasticSearch:_ Elasticsearch is a search engine based on Lucene. It provides a distributed, multitenant-capable full-text search engine with an HTTP web interface and schema-free JSON documents. 
+_Elastic Search:_
 
-It is developed alongside a data-collection and log-parsing engine called Logstash, and an analytics and visualisation platform called Kibana. The three products are designed for use as an integrated solution, referred to as the "Elastic Stack" (Formerly the "ELK stack").
+Elasticsearch is a search engine based on Lucene. It provides a distributed, multitenant-capable full-text search engine with an HTTP web interface and schema-free JSON documents. 
+
+It is developed alongside a data-collection and log-parsing engine called Logstash, and an analytics and visualization platform called Kibana. The three products are designed for use as an integrated solution, referred to as the "Elastic Stack" (Formerly the "ELK stack").
 
 _Borrowed from [Wikipedia](https://en.wikipedia.org/wiki/Elasticsearch)_
 
@@ -194,14 +191,90 @@ Kibana is an open source data visualization plugin for Elasticsearch. It provide
 
 _Borrowed from [Wikipedia](https://en.wikipedia.org/wiki/Kibana)_
 
-_Logstash_
+_Logstash:_
 
 Logstash is a tool to collect, process, and forward events and log messages. Collection is accomplished via configurable input plugins including raw socket/packet communication, file tailing, and several message bus clients. Once an input plugin has collected data it can be processed by any number of filters which modify and annotate the event data. Finally logstash routes events to output plugins which can forward the events to a variety of external programs including Elasticsearch, local files and several message bus implementations.
 
 _Borrowed from [Wikitech](https://wikitech.wikimedia.org/wiki/Logstash)_
 
+**Mesh Node**
+
+Since we used the painless mesh library we did a proof of concept in top of it in oirder to se how the mesh would be created and how it would change during its life spawn (life cicle). In order to do so we used json output strings through the serial port.  
+The possibility of embodying messages that would trigger the built-in led with the goal of demonstrating the mesh network's proper behavior.
+
+**Serial-to-Elk:**
+
+This module is written in [nodejs](https://nodejs.org/en/) and uses the following dependencies: 
+* [serialport](https://www.npmjs.com/package/serialport): Node-Serialport provides a stream interface for the low-level serial port code necessary to control Arduino chipsets and others.
+* [yargs](https://www.npmjs.com/package/yargs): _Yargs be a node.js library fer hearties tryin' ter parse optstrings._
+
+Taking the output logs from one of the mesh work's nodes we parsed such data and sent it to elastic search  
+
+_Sample network configuration log entry_
+
+```json
+{
+  "nodes": [
+    {
+      "id": 2786275551
+    },
+    {
+      "id": 2785081432
+    },
+    {
+      "id": 2785176007
+    },
+    {
+      "id": 2786205540
+    }
+  ],
+  "edges": [
+    {
+      "id": "2786275551-2785081432",
+      "weight": 1,
+      "source": 2786275551,
+      "target": 2785081432
+    },
+    {
+      "id": "2785081432-2785176007",
+      "weight": 1,
+      "source": 2785081432,
+      "target": 2785176007
+    },
+    {
+      "id": "2785176007-2786205540",
+      "weight": 1,
+      "source": 2785176007,
+      "target": 2786205540
+    }
+  ]
+}
+```
+
+_Sample message log entry_
+
+```json
+"_source": {
+    "message": {
+      "msgtype": 1,
+      "self": 2786275551,
+      "body": {
+        "from": 2785176007,
+        "msg": "Hello from node 2785176007"
+      }
+    },
+    "date": "2017-08-22T16:27:12.403Z"
+  }
+
+```
+
+**Netowrk Viz:**
+The data the mesh networks provides is asked to the Elastic Search database through pooling (since ElasticSearch does not provide the use of websockets out-of-the-box) using the [axius](https://www.npmjs.com/package/axios) library: Promise based HTTP client for the browser and node.js
+For the visulaization [cytoscape](https://www.npmjs.com/package/cytoscape) is used: Graph theory (a.k.a. network) library for analysis and visualisation 
+
 ### Set up  
-1. Docker - elk:
+**1. Docker-elk:**
+
 Start the ELK stack using `docker-compose`:
 
 ```bash
@@ -223,7 +296,52 @@ By default, the stack exposes the following ports:
 * 9300: Elasticsearch TCP transport
 * 5601: Kibana
 
-2. Mesh node:
+**2. Mesh node:**
+
+To be able to properly run this repository you must install platformio and run:
+```bash
+$ platformio run --target upload <
+```
+If you use Visual Studio Code with the platformio plug in then you just need to click send. 
+
+If you need wish to see what's being written on the serial port then run:
+```bash
+$ platformio device monitor <
+```
+If you use Visual Studio Code with the platformio plug in then you just need to click on the serial monitor.
+
+**3.Serial-to-Elk:**
+
+_Requirements:_ 
+* Install [nodejs](https://nodejs.org/en/) 
+* Run: ``` $  npm install ```
+
+_Run:_ 
+
+```bash
+$  node .\index.js --port [str] --baud [num] --server [str]
+```
+
+- Example:
+```bash
+$  node .\index.js --port COM3
+```
+This script sends the information from the serial port to ElasticSearch. 
+
+**4.Netowrk Viz:**
+
+_Requirements:_ 
+* Install [nodejs](https://nodejs.org/en/) 
+* Run: ``` $  npm install ```
+
+_Run:_
+
+```bash
+$  npm run start
+```
+
+This module starts an HTTP server and opens a browser window with a mesh network graphical real time representation.
+
 
 ### Side efforts 
 
@@ -235,7 +353,6 @@ By default, the stack exposes the following ports:
 ### Authors 
 
 * [Filipa Barros](https://github.com/FilipaBarros)
-* [Gonçalo Pereira](https://github.com/G-Pereira)
 * [Luís Sousa](https://github.com/Sleepy105)
 * [Hugo Sereno Ferreira](https://github.com/hugoferreira)
 * [João Pedro Dias](https://github.com/jpdias)
