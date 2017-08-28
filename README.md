@@ -182,11 +182,11 @@ It gives you the ability to analyze any data set by using the searching/aggregat
 
 It has 3 containers being those: 
 
-_ElasticSearch:_
+_Elastic Search:_
 
 Elasticsearch is a search engine based on Lucene. It provides a distributed, multitenant-capable full-text search engine with an HTTP web interface and schema-free JSON documents. 
 
-It is developed alongside a data-collection and log-parsing engine called Logstash, and an analytics and visualisation platform called Kibana. The three products are designed for use as an integrated solution, referred to as the "Elastic Stack" (Formerly the "ELK stack").
+It is developed alongside a data-collection and log-parsing engine called Logstash, and an analytics and visualization platform called Kibana. The three products are designed for use as an integrated solution, referred to as the "Elastic Stack" (Formerly the "ELK stack").
 
 _Borrowed from [Wikipedia](https://en.wikipedia.org/wiki/Elasticsearch)_
 
@@ -205,12 +205,12 @@ _Borrowed from [Wikitech](https://wikitech.wikimedia.org/wiki/Logstash)_
 **Mesh Node**
 
 Since we used the painless mesh library we did a proof of concept in top of it in oirder to se how the mesh would be created and how it would change during its life spawn (life cicle). In order to do so we used json output strings through the serial port.  
-Tha possibility of embodying messages that would trigger the builtin led with the goal of demonstrating the mesh network's propper behavior.
+The possibility of embodying messages that would trigger the built-in led with the goal of demonstrating the mesh network's proper behavior.
 
 **Serial-to-Elk:**
 
 This module is written in [nodejs](https://nodejs.org/en/) and uses the following dependencies: 
-* [serialport](https://www.npmjs.com/package/serialport): Node-Serialport provides a stream interface for the low-level serial port code necessary to controll Arduino chipsets and others.
+* [serialport](https://www.npmjs.com/package/serialport): Node-Serialport provides a stream interface for the low-level serial port code necessary to control Arduino chipsets and others.
 * [yargs](https://www.npmjs.com/package/yargs): _Yargs be a node.js library fer hearties tryin' ter parse optstrings._
 
 Taking the output logs from one of the mesh work's nodes we parsed such data and sent it to elastic search  
