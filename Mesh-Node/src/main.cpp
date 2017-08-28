@@ -1,4 +1,3 @@
-
 //************************************************************
 // this is a simple example that uses the painlessMesh library
 //
@@ -7,6 +6,7 @@
 //
 //
 //************************************************************
+#include <Arduino.h>
 #include "painlessMesh.h"
 
 #define   MESH_PREFIX     "ESP-Mesh"
