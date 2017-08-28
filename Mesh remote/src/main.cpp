@@ -17,7 +17,7 @@
 #define   MESH_PASSWORD   "SneakySneaky"
 #define   MESH_PORT       5555
 
-#define LED_PIN BUILTIN_LED
+#define LED_PIN BUILTIN_LED // pin 2 for the nodemcu (lolin v3)
 String toggleMsg = "toggle";
 
 void sendMessage() ; // Prototype so PlatformIO doesn't complain
@@ -67,11 +67,14 @@ void loop() {
 
   if(Serial.available()) {
     String msg = Serial.readStringUntil('\n');
-    uint32_t id = atoi(msg.c_str());
+    Serial.println(msg);
+    uint32_t id = strtoul(msg.c_str(), NULL, 10);
 
-    if(id = 0 && String(id) != msg)
+    if(String(id) != msg) //atoi error
       Serial.println("ERROR with message");
-    else
+    else {
+      Serial.println(id);
       mesh.sendSingle(id, toggleMsg);
+    }
   }
 }
