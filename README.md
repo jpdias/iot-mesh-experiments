@@ -203,12 +203,45 @@ Logstash is a tool to collect, process, and forward events and log messages. Col
 _Borrowed from [Wikitech](https://wikitech.wikimedia.org/wiki/Logstash)_
 
 **Mesh Node**
+
 Since we used the painless mesh library we did a proof of concept in top of it in oirder to se how the mesh would be created and how it would change during its life spawn (life cicle). In order to do so we used json output strings through the serial port.  
 Tha possibility of embodying messages that would trigger the builtin led with the goal of demonstrating the mesh network's propper behavior.
 
 **Serial-to-Elk:**
 
+This module is written in [nodejs](https://nodejs.org/en/) and uses the following dependencies: 
+* [serialport](https://www.npmjs.com/package/serialport): Node-Serialport provides a stream interface for the low-level serial port code necessary to controll Arduino chipsets and others.
+* [yargs](https://www.npmjs.com/package/yargs): _Yargs be a node.js library fer hearties tryin' ter parse optstrings._
+
+Taking the output logs from one of the mesh work's nodes we parsed such data and sent it to elastic search  
+
+_Sample network configuration log entry_
+
+```json
+{"nodes":[{"id":2786275551},{"id":2785081432},{"id":2785176007},{"id":2786205540}],"edges":[{"id":"2786275551-2785081432","weight":1,"source":2786275551,"target":2785081432},{"id":"2785081432-2785176007","weight":1,"source":2785081432,"target":2785176007},{"id":"2785176007-2786205540","weight":1,"source":2785176007,"target":2786205540}]}
+```
+
+_Sample message log entry_
+
+```json
+"_source": {
+    "message": {
+      "msgtype": 1,
+      "self": 2786275551,
+      "body": {
+        "from": 2785176007,
+        "msg": "Hello from node 2785176007"
+      }
+    },
+    "date": "2017-08-22T16:27:12.403Z"
+  }
+
+```
+
 **Netowrk Viz:**
+The data the mesh networks provides is asked to the Elastic Search database through pooling (since ElasticSearch does not provide the use of websockets out-of-the-box) using the [axius](https://www.npmjs.com/package/axios) library: Promise based HTTP client for the browser and node.js
+For the visulaization [cytoscape](https://www.npmjs.com/package/cytoscape) is used: Graph theory (a.k.a. network) library for analysis and visualisation 
+
 ### Set up  
 **1. Docker-elk:**
 
