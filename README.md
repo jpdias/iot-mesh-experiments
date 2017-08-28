@@ -1,4 +1,4 @@
-# IoT-Summer-Experiments
+# Internet-of-Things Mesh Network Experiments
 
 ### Context 
 
