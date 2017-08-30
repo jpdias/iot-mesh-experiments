@@ -342,15 +342,14 @@ $  npm run start
 
 This module starts an HTTP server and opens a browser window with a mesh network graphical real time representation.
 
+---
 
-### Side efforts 
-
-### Side components 
+## _Side-notes_ 
 
 * Participation in the [Sunset Hackathon](http://sunsethackathon.pt/)
 
 
-### Authors 
+## Authors 
 
 * [Filipa Barros](https://github.com/FilipaBarros)
 * [Luís Sousa](https://github.com/Sleepy105)
