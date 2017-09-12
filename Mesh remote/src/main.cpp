@@ -17,6 +17,10 @@
 #define   MESH_PASSWORD   "SneakySneaky"
 #define   MESH_PORT       5555
 
+#define logMsg(type, body) Serial.println("{\"msgtype\": "+ String(type) +", \"self\": "+ String(mesh.getNodeId()) +", \"body\": "+ String(body) +"}")
+#define NETWORK_MAP 0
+#define RECEIVED_MSG 1
+
 #define LED_PIN BUILTIN_LED // pin 2 for the nodemcu (lolin v3)
 String toggleMsg = "toggle";
 
@@ -38,7 +42,7 @@ void newConnectionCallback(uint32_t nodeId) {
 }
 
 void changedConnectionCallback() {
-    Serial.printf("Changed connections %s\n",mesh.subConnectionJson().c_str());
+  logMsg(NETWORK_MAP, mesh.subConnectionJson());
 }
 
 void nodeTimeAdjustedCallback(int32_t offset) {
@@ -57,7 +61,7 @@ void setup() {
   mesh.init( MESH_PREFIX, MESH_PASSWORD, MESH_PORT );
   mesh.onReceive(&receivedCallback);
   //mesh.onNewConnection(&newConnectionCallback);
-  //mesh.onChangedConnections(&changedConnectionCallback);
+  mesh.onChangedConnections(&changedConnectionCallback);
   //mesh.onNodeTimeAdjusted(&nodeTimeAdjustedCallback);
 
 }
