@@ -37,11 +37,11 @@ client.ping({
   } else {
     console.log('ElasticSearch is running.');
   }
-},
-);
+});
 
 function formatResponse(currentScope, nodes, edges, prevId) {
-  currentScope.array.forEach((element) => {
+  console.log(currentScope);
+  currentScope.forEach((element) => {
     // Check if the new 'currentScope' still has a 'nodeId' object
     if (element !== undefined && element.nodeId !== undefined) {
       const dataNode = { id: element.nodeId };
@@ -86,26 +86,40 @@ const format = (parsedMsg) => {
 
 // Consumer
 const consumer = (logEntry) => {
-  const entry = logEntry.replace(/\t/g, ' ');
+  var entry = logEntry.replace(/\t/g, ' ');
 
   try {
-    let parsedMsg = JSON.parse(entry);
-    console.log(entry);
-
+    let parsedMsg;
     let ELKindex; // index to be used in the ElasticSearch submission
-    switch (parsedMsg.msgtype) {
-      case NETWORK_MAP:
+
+    if(entry.indexOf("{") > 0) {
+      let start = entry.indexOf("{");
+      let end = entry.lastIndexOf("}");
+      entry = entry.substr(start, end+1-start);
+    }
+    
+    parsedMsg = JSON.parse(entry);
+    
+    if(parsedMsg.hasOwnProperty("msgtype")) {
+      switch (parsedMsg.msgtype) {
+        case NETWORK_MAP:
         ELKindex = 'network';
         parsedMsg = format(parsedMsg);
+        console.log(parsedMsg);
         break;
-      case RECEIVED_MSG:
+        case RECEIVED_MSG:
         ELKindex = `messages-${parsedMsg.self}`;
         break;
-      default:
+        default:
         ELKindex = 'unformatted';
         break;
+      }
+    } else if(parsedMsg.hasOwnProperty("dest") && parsedMsg.dest && parsedMsg.hasOwnProperty("from") && parsedMsg.from) {
+      ELKindex = `messages-${parsedMsg.from}`;
     }
-
+    
+    console.log(entry);
+    
     client.index({
       index: ELKindex,
       type: 'log',
@@ -120,6 +134,7 @@ const consumer = (logEntry) => {
       }
     });
   } catch (e) {
+    //console.log(e);
     console.log(`Not valid JSON msg: ${entry}`);
   }
 };

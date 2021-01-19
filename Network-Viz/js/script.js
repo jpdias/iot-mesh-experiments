@@ -104,18 +104,18 @@ const getMessages = lastTimestamp => axios.get(`http://192.168.102.55:9200/messa
     console.debug(response);
     if (lastTimestamp < new Date(response.data.hits.hits[0]._source.date)) {
       response.data.hits.hits.reverse().forEach((element) => {
-        const conn = `${element._source.message.self}-${element._source.message.body.from}-msg`;
+        const conn = `${element._source.message.dest}-${element._source.message.from}-msg`;
         if (cy.getElementById(conn).length !== 0) {
           cy.getElementById(conn).flashClass('highlighted', 100);
-          cy.getElementById(conn).style('label', element._source.message.body.msg);
+          cy.getElementById(conn).style('label', JSON.stringify(element._source.message));
         } else {
           try {
             cy.add([{
               group: 'edges',
               data: {
                 id: conn,
-                source: element._source.message.body.from,
-                target: element._source.message.self,
+                source: element._source.message.from,
+                target: element._source.message.dest,
               },
               style: {
                 'line-style': 'dotted',
